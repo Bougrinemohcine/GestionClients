@@ -42,7 +42,7 @@
 
   <body>
     <div class="wrapper">
-
+      {{$slot}}
     <x-sidebar/>
     
 

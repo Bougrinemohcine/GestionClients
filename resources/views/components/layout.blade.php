@@ -42,7 +42,6 @@
 
   <body>
     <div class="wrapper">
-      {{$slot}}
     <x-sidebar/>
     
 
@@ -74,6 +73,11 @@
             <!-- End Logo Header -->
           </div>
          <x-navbar/>
+         <div class="container">
+
+           {{$slot}}
+         </div>
+
         </div>
 
         <footer class="footer">

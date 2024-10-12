@@ -24,6 +24,7 @@ Route::middleware('auth')->group(function () {
 // Admin-specific routes
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin-dashboard', [AdminController::class, 'dashboard'])->name('adminDashboard');
+    Route::get('/admin-settings', [AdminController::class, 'settings'])->name('SettingsAdmin');
 });
 
 // Sales-specific routes

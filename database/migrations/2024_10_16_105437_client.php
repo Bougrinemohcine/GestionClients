@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name');  // Name of the client
             $table->string('email')->unique();  // Email of the client
             $table->string('address');  // Simple address field
+            $table->string('telephone')->nullable();  // Telephone field
+            $table->string('website')->nullable();  // Website field
             $table->foreignId('admin_id')->constrained('users')->onDelete('cascade');  // Foreign key linking to the admin
             $table->timestamps();  // Timestamps for created_at and updated_at
         });

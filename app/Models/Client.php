@@ -19,6 +19,8 @@ class Client extends Model
         'name',
         'email',
         'address',
+        'telephone',
+        'website',
         'admin_id',  // Foreign key to the User model (admin)
     ];
 

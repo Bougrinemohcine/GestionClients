@@ -1,12 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Client;
 use Illuminate\Support\Facades\Auth;
-
-
 
 class ClientController extends Controller
 {
@@ -27,24 +24,26 @@ class ClientController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:clients',
             'address' => 'required|string',
+            'telephone' => 'nullable|string|max:20',  // Add validation for telephone
+            'website' => 'nullable|url|max:255',      // Add validation for website
         ]);
 
         Client::create([
             'name' => $request->name,
             'email' => $request->email,
             'address' => $request->address,
+            'telephone' => $request->telephone,  // Include telephone
+            'website' => $request->website,      // Include website
             'admin_id' => Auth::id(),
         ]);
 
         return redirect()->route('clients.index')->with('message', 'Client created successfully.');
     }
 
-    // Add this method to the ClientController
-public function edit(Client $client)
-{
-    return response()->json($client);
-}
-
+    public function edit(Client $client)
+    {
+        return response()->json($client);
+    }
 
     public function update(Request $request, Client $client)
     {
@@ -52,9 +51,11 @@ public function edit(Client $client)
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:clients,email,' . $client->id,
             'address' => 'required|string',
+            'telephone' => 'nullable|string|max:20',  // Include telephone validation
+            'website' => 'nullable|url|max:255',      // Include website validation
         ]);
 
-        $client->update($request->only('name', 'email', 'address'));
+        $client->update($request->only('name', 'email', 'address', 'telephone', 'website')); // Include new fields
 
         return redirect()->route('clients.index')->with('message', 'Client updated successfully.');
     }

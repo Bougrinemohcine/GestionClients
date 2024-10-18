@@ -20,25 +20,30 @@ class ClientController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request);
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:clients',
+            'code' => 'required|string|max:255|unique:clients',  // Ensure code is unique for new clients
             'address' => 'required|string',
-            'telephone' => 'nullable|string|max:20',  // Add validation for telephone
-            'website' => 'nullable|url|max:255',      // Add validation for website
+            'telephone' => 'nullable|string|max:20',
+            'website' => 'nullable|url|max:255',
         ]);
-
+        
+    
         Client::create([
             'name' => $request->name,
             'email' => $request->email,
+            'code' => $request->code, // Include code in client creation
             'address' => $request->address,
-            'telephone' => $request->telephone,  // Include telephone
-            'website' => $request->website,      // Include website
+            'telephone' => $request->telephone,
+            'website' => $request->website,
             'admin_id' => Auth::id(),
         ]);
-
+    
         return redirect()->route('clients.index')->with('message', 'Client created successfully.');
     }
+    
 
     public function edit(Client $client)
     {
@@ -50,12 +55,14 @@ class ClientController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:clients,email,' . $client->id,
+            'code' => 'required|string|max:255|unique:clients,code,' . $client->id, // Unique code validation allowing current client
             'address' => 'required|string',
-            'telephone' => 'nullable|string|max:20',  // Include telephone validation
-            'website' => 'nullable|url|max:255',      // Include website validation
+            'telephone' => 'nullable|string|max:20',
+            'website' => 'nullable|url|max:255',
         ]);
+        
 
-        $client->update($request->only('name', 'email', 'address', 'telephone', 'website')); // Include new fields
+        $client->update($request->only('name', 'email','code', 'address', 'telephone', 'website')); // Include new fields
 
         return redirect()->route('clients.index')->with('message', 'Client updated successfully.');
     }

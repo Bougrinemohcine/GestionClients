@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');  // Name of the client
             $table->string('email')->unique();  // Email of the client
+            $table->string('code')->nullable()->unique();  // Make the code field nullable and unique
             $table->string('address');  // Simple address field
             $table->string('telephone')->nullable();  // Telephone field
             $table->string('website')->nullable();  // Website field

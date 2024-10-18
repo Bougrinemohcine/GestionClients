@@ -5,6 +5,16 @@
                 {{ session('message') }}
             </div>
         @endif
+        {{-- Error Message Alert --}}
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         <button class="btn btn-primary mb-2" data-toggle="modal" data-target="#createClientModal">Create Client</button>
 
@@ -13,6 +23,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Email</th>
+                    <th>Code</th> <!-- New Code column -->
                     <th>Address</th>
                     <th>Telephone</th>
                     <th>Website</th>
@@ -24,6 +35,7 @@
                     <tr>
                         <td>{{ $client->name }}</td>
                         <td>{{ $client->email }}</td>
+                        <td>{{ $client->code }}</td> <!-- Display the client's code -->
                         <td>{{ $client->address }}</td>
                         <td>{{ $client->telephone }}</td>
                         <td>{{ $client->website ? $client->website : 'No website' }}</td>
@@ -39,6 +51,7 @@
                 @endforeach
             </tbody>
         </table>
+        
     </div>
 
    <!-- Create Client Modal -->
@@ -61,6 +74,10 @@
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" name="email" id="createClientEmail" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="code">Code</label> <!-- New Code Field -->
+                        <input type="text" name="code" id="createClientCode" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="address">Address</label>
@@ -108,6 +125,10 @@
                         <input type="email" name="email" id="editClientEmail" class="form-control" required>
                     </div>
                     <div class="form-group">
+                        <label for="code">Code</label> <!-- New Code Field -->
+                        <input type="text" name="code" id="editClientCode" class="form-control" required>
+                    </div>
+                    <div class="form-group">
                         <label for="address">Address</label>
                         <textarea name="address" id="editClientAddress" class="form-control" required></textarea>
                     </div>
@@ -133,14 +154,14 @@
 
 <script>
     function editClient(id) {
-        // Make an AJAX request to get the client data
         $.get(`/clients/${id}/edit`, function(client) {
             $('#editClientId').val(client.id);
             $('#editClientName').val(client.name);
             $('#editClientEmail').val(client.email);
+            $('#editClientCode').val(client.code); // Include code in the edit form
             $('#editClientAddress').val(client.address);
-            $('#editClientTelephone').val(client.telephone); // Include telephone
-            $('#editClientWebsite').val(client.website); // Include website
+            $('#editClientTelephone').val(client.telephone);
+            $('#editClientWebsite').val(client.website);
             $('#editClientForm').attr('action', `/clients/${id}`);
         });
     }
